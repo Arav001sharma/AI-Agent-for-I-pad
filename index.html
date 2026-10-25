@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lil Agents - iPad Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lil Agents">
+  <meta name="theme-color" content="#090b0e">
+
+  <!-- PWA & Apple Touch Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="Midnight">
+  <div class="ipad-stage" id="stage">
+    <div class="stage-ambient"></div>
+
+    <!-- iPad Top Navigation Bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <span style="font-size: 20px;">🤖</span>
+        <span>lil agents</span>
+        <span class="brand-badge">iPad M1 Pro</span>
+      </div>
+
+      <div class="top-actions">
+        <!-- Character quick filters -->
+        <button class="btn-pill active" id="toggleBruce" title="Toggle Bruce">
+          <span>🟢</span> Bruce
+        </button>
+        <button class="btn-pill active" id="toggleJazz" title="Toggle Jazz">
+          <span>🟠</span> Jazz
+        </button>
+
+        <!-- Theme Picker -->
+        <select class="btn-pill" id="themeSelect" style="outline: none;">
+          <option value="Midnight" selected>Midnight</option>
+          <option value="Peach">Peach</option>
+          <option value="Cloud">Cloud</option>
+          <option value="Moss">Moss</option>
+        </select>
+
+        <!-- Sound Toggle -->
+        <button class="btn-pill" id="toggleSound" title="Toggle Sound">
+          <span id="soundIcon">🔊</span>
+        </button>
+
+        <!-- Settings Button -->
+        <button class="btn-pill" id="openSettings" title="Agent API Settings">
+          <span>⚙️</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Walking Characters Area -->
+    <main class="walker-stage-area" id="stageTrack">
+      <!-- Bruce Character -->
+      <div class="walker-item" id="walker-bruce" data-name="Bruce">
+        <div class="bubble-container" id="bubble-bruce">
+          <div class="bubble-box">
+            <span class="bubble-indicator"></span>
+            <span class="bubble-text" id="bubble-text-bruce">hi!</span>
+          </div>
+        </div>
+        <video class="walker-video" id="video-bruce" src="assets/walk-bruce-01.mov" playsinline muted loop autoplay></video>
+      </div>
+
+      <!-- Jazz Character -->
+      <div class="walker-item" id="walker-jazz" data-name="Jazz">
+        <div class="bubble-container" id="bubble-jazz">
+          <div class="bubble-box">
+            <span class="bubble-indicator"></span>
+            <span class="bubble-text" id="bubble-text-jazz">hi!</span>
+          </div>
+        </div>
+        <video class="walker-video" id="video-jazz" src="assets/walk-jazz-01.mov" playsinline muted loop autoplay></video>
+      </div>
+    </main>
+
+    <!-- Interactive iPad Dock -->
+    <div class="ipad-dock-container">
+      <nav class="ipad-dock" id="ipadDock">
+        <div class="dock-item bruce-active" id="dockBruce" title="Bruce AI Terminal">
+          <span>🟢</span>
+        </div>
+        <div class="dock-item jazz-active" id="dockJazz" title="Jazz AI Terminal">
+          <span>🟠</span>
+        </div>
+        <div class="dock-divider"></div>
+        <div class="dock-item" id="dockTerminal" title="Quick Terminal">
+          <span>💻</span>
+        </div>
+        <div class="dock-item" id="dockNotes" title="Notes & Scratchpad">
+          <span>📝</span>
+        </div>
+        <div class="dock-item" id="dockSettings" title="Settings">
+          <span>⚙️</span>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Floating AI Terminal Popover -->
+    <div class="terminal-popover" id="terminalPopover">
+      <div class="popover-header" id="popoverHeader">
+        <div class="popover-title">
+          <span class="popover-title-dot" id="activeDot"></span>
+          <span id="terminalTitle">BRUCE // GEMINI</span>
+        </div>
+        <div class="header-controls">
+          <button class="btn-icon" id="btnCopyLast" title="Copy last response">📋</button>
+          <button class="btn-icon" id="btnClearChat" title="Clear terminal">🗑️</button>
+          <button class="btn-icon" id="btnCloseTerminal" title="Close terminal">✕</button>
+        </div>
+      </div>
+
+      <div class="terminal-body" id="chatHistory">
+        <!-- Messages will be appended dynamically -->
+      </div>
+
+      <div class="terminal-footer">
+        <div class="input-container">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Ask Bruce... (type /help for commands)" autocomplete="off" />
+          <button class="btn-send" id="btnSend">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+      <div class="settings-card">
+        <h3>Lil Agents Settings</h3>
+        
+        <div class="setting-group">
+          <label for="providerSelect">AI Provider</label>
+          <select id="providerSelect">
+            <option value="gemini">Google Gemini (Default)</option>
+            <option value="claude">Anthropic Claude</option>
+            <option value="openai">OpenAI (GPT-4o)</option>
+            <option value="demo">Demo / Offline Mode (No Key Required)</option>
+          </select>
+        </div>
+
+        <div class="setting-group" id="apiKeyContainer">
+          <label for="apiKeyInput">API Key</label>
+          <input type="password" id="apiKeyInput" placeholder="Enter API key for selected provider..." />
+          <small style="color: #888; font-size: 11px; margin-top: 4px;">Keys are stored locally in your iPad's secure browser storage.</small>
+        </div>
+
+        <div class="setting-group">
+          <label for="charSizeSelect">Character Size</label>
+          <select id="charSizeSelect">
+            <option value="large">Large (200px)</option>
+            <option value="medium" selected>Medium (150px)</option>
+            <option value="small">Small (100px)</option>
+          </select>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn-pill" id="closeSettingsBtn">Cancel</button>
+          <button class="btn-pill active" id="saveSettingsBtn">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Audio elements pool for chimes -->
+  <audio id="snd-ping" preload="auto"></audio>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

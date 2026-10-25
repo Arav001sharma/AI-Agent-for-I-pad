@@ -1,0 +1,22 @@
+{
+  "name": "Lil Agents",
+  "short_name": "LilAgents",
+  "description": "Tiny AI companions that live on your iPad dock. Bruce and Jazz walk, think, and vibe with AI terminal chat.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0f12",
+  "theme_color": "#121418",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
