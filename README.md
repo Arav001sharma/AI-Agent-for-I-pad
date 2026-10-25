@@ -1,51 +1,65 @@
-# lil agents
+# lil agents (iPad Pro M1 Edition)
 
 ![lil agents](hero-thumbnail.png)
 
-Tiny AI companions that live on your macOS dock.
+Tiny AI companions that live on your iPad dock.
 
-**Bruce** and **Jazz** walk back and forth above your dock. Click one to open an AI terminal. They walk, they think, they vibe.
+**Bruce** and **Jazz** walk back and forth above your dock. Tap one to open an AI terminal. They walk, they think, they vibe.
 
-Supports **Claude Code**, **OpenAI Codex**, **GitHub Copilot**, and **Google Gemini** CLIs — switch between them from the menubar.
+---
 
-**[Download for macOS](https://lilagents.xyz)** · [Website](https://lilagents.xyz)
+## 📱 iPad Installation Options
 
-## features
+### Option 1: Live Web App (Add directly to your iPad Dock)
+No downloading required! Open the link below in Safari on your iPad:
 
-- Animated characters rendered from transparent HEVC video
-- Click a character to chat with AI in a themed popover terminal
-- Switch between Claude, Codex, Copilot, and Gemini from the menubar
-- Four visual themes: Peach, Midnight, Cloud, Moss
-- Slash commands: `/clear`, `/copy`, `/help` in the chat input
-- Copy last response button in the title bar
-- Thinking bubbles with playful phrases while your agent works
-- Sound effects on completion
-- First-run onboarding with a friendly welcome
-- Auto-updates via Sparkle
+👉 **[Launch iPad Web App](https://arav001sharma.github.io/AI-Agent-for-I-pad/)**
 
-## requirements
+1. Open the link above in **Safari** on your iPad.
+2. Tap the **Share** button (box with upward arrow).
+3. Tap **"Add to Home Screen"** and tap **Add**.
+4. Drag the **Lil Agents** icon straight into your **iPad Dock**!
 
-- macOS Sonoma (14.0+) — including Sequoia (15.x)
-- **Universal binary** — runs natively on both Apple Silicon and Intel Macs
-- At least one supported CLI installed:
-  - [Claude Code](https://claude.ai/download) — `curl -fsSL https://claude.ai/install.sh | sh`
-  - [OpenAI Codex](https://github.com/openai/codex) — `npm install -g @openai/codex`
-  - [GitHub Copilot](https://github.com/github/copilot-cli) — `brew install copilot-cli`
-  - [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) — `npm install -g @google/gemini-cli`
+---
 
-## building
+### Option 2: Native App for Swift Playgrounds
+Run a 100% native Swift app on your iPad Pro with Stage Manager support:
 
-Open `lil-agents.xcodeproj` in Xcode and hit run.
+👉 **[Download LilAgents.swiftpm.zip](https://github.com/Arav001sharma/AI-Agent-for-I-pad/releases/download/v1.0.0/LilAgents.swiftpm.zip)**
 
-## privacy
+1. Install Apple's free **Swift Playgrounds** app from the App Store on your iPad.
+2. Download `LilAgents.swiftpm.zip` in Safari on your iPad.
+3. Open your **Files** app and tap `LilAgents.swiftpm.zip` to unzip it.
+4. Tap `LilAgents.swiftpm` to open it in Swift Playgrounds, then tap **Run My Code**!
 
-lil agents runs entirely on your Mac and sends no personal data anywhere.
+---
 
-- **Your data stays local.** The app plays bundled animations and calculates your dock size to position the characters. No project data, file paths, or personal information is collected or transmitted.
-- **AI providers.** Conversations are handled entirely by the CLI process you choose (Claude, Codex, Copilot, or Gemini) running locally. lil agents does not intercept, store, or transmit your chat content. Any data sent to the provider is governed by their respective terms and privacy policies.
-- **No accounts.** No login, no user database, no analytics in the app.
-- **Updates.** lil agents uses Sparkle to check for updates, which sends your app version and macOS version. Nothing else.
+## ✨ Features
 
-## license
+- **Transparent HEVC video**: Animated characters rendered from hardware-accelerated transparent HEVC video.
+- **Stage Manager Ready**: Floating companion window designed for iPadOS 16.7+ multitasking.
+- **Interactive Terminal**: Tap Bruce or Jazz to chat with **Google Gemini**, **Claude**, **OpenAI**, or offline **Demo Mode**.
+- **Audio completion chimes**: 8 pleasant chime variations upon completion.
+- **Live thinking bubbles**: Playful status phrases while your agent is processing.
+- **Four visual themes**: Peach, Midnight, Cloud, Moss.
+- **Slash commands**: `/clear`, `/copy`, `/theme`, `/help`.
+
+---
+
+## 💻 For macOS Users (Desktop Original)
+
+If you are on a Mac computer (not an iPad):
+- **Download for macOS**: [lilagents.xyz](https://lilagents.xyz)
+- macOS Sonoma (14.0+) or Sequoia (15.x).
+
+---
+
+## 🔒 Privacy
+
+- Everything runs on your device.
+- Direct API connections to your chosen AI provider (Gemini, Claude, OpenAI).
+- Keys are stored locally on your device. No third-party accounts, tracking, or telemetry.
+
+## 📄 License
 
 MIT License. See [LICENSE](LICENSE) for details.
