@@ -11,7 +11,9 @@ struct TransparentVideoPlayer: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: PlayerUIView, context: Context) {}
+    func updateUIView(_ uiView: PlayerUIView, context: Context) {
+        // Player already running in looper, no need to recreate
+    }
 }
 
 class PlayerUIView: UIView {
@@ -25,14 +27,21 @@ class PlayerUIView: UIView {
 
     func setupPlayer(videoName: String) {
         backgroundColor = .clear
-        
-        guard let url = Bundle.module.url(forResource: videoName, withExtension: "mov") else {
+
+        // Prevent duplicate setups
+        if queuePlayer != nil { return }
+
+        guard let url = ResourceHelper.findResource(name: videoName, ext: "mov") else {
+            print("Notice: Resource \(videoName).mov not found in bundle, using animated character fallback")
             return
         }
 
-        let asset = AVURLAsset(url: url)
+        let asset = AVAsset(url: url)
         let playerItem = AVPlayerItem(asset: asset)
-        let player = AVQueuePlayer(playerItem: playerItem)
+        
+        // CRITICAL FIX: AVQueuePlayer MUST be initialized empty!
+        // Passing playerItem to both AVQueuePlayer AND AVPlayerLooper crashes with NSInvalidArgumentException.
+        let player = AVQueuePlayer()
         looper = AVPlayerLooper(player: player, templateItem: playerItem)
 
         if let pLayer = layer as? AVPlayerLayer {

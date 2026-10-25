@@ -17,8 +17,8 @@ class SoundManager {
 
     func playRandomPing() {
         guard let name = soundNames.randomElement() else { return }
-        if let url = Bundle.module.url(forResource: name, withExtension: "mp3", subdirectory: "Sounds") ??
-                     Bundle.module.url(forResource: name, withExtension: "mp3") {
+        if let url = ResourceHelper.findResource(name: name, ext: "mp3", subdirectory: "Sounds") ??
+                     ResourceHelper.findResource(name: name, ext: "mp3") {
             audioPlayer = try? AVAudioPlayer(contentsOf: url)
             audioPlayer?.play()
         }

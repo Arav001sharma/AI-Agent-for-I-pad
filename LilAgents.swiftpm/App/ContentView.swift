@@ -113,13 +113,27 @@ struct ContentView: View {
                 .overlay(RoundedRectangle(cornerRadius: 12).stroke(character.tintColor.opacity(0.5), lineWidth: 1))
             }
 
-            // Character Video
-            TransparentVideoPlayer(videoName: character.videoName)
-                .frame(width: 120, height: 180)
-                .scaleEffect(x: character.isFacingLeft ? -1 : 1, y: 1)
-                .onTapGesture {
-                    openTerminal(for: character)
+            // Character Video with fallback avatar
+            ZStack {
+                TransparentVideoPlayer(videoName: character.videoName)
+
+                VStack(spacing: 4) {
+                    Circle()
+                        .fill(character.tintColor)
+                        .frame(width: 44, height: 44)
+                        .overlay(Text("🤖").font(.system(size: 24)))
+                        .shadow(color: character.tintColor.opacity(0.4), radius: 6)
+                    Text(character.name)
+                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .foregroundColor(.white)
                 }
+                .zIndex(-1)
+            }
+            .frame(width: 120, height: 180)
+            .scaleEffect(x: character.isFacingLeft ? -1 : 1, y: 1)
+            .onTapGesture {
+                openTerminal(for: character)
+            }
         }
         .position(x: character.xPosition, y: 400)
     }

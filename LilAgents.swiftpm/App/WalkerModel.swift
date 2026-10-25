@@ -40,26 +40,37 @@ class WalkerModel: ObservableObject, Identifiable {
         self.xPosition = initialX
         self.speed = speed
 
-        // Start movement loop
-        startLoop()
+        // Start movement loop safely on next runloop
+        DispatchQueue.main.async { [weak self] in
+            self?.startLoop()
+            self?.autoHideInitialBubble()
+        }
+    }
 
-        // Auto hide onboarding bubble
+    deinit {
+        timer?.invalidate()
+    }
+
+    private func autoHideInitialBubble() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { [weak self] in
             if !(self?.isBusy ?? false) {
-                self?.isBubbleVisible = false
+                withAnimation {
+                    self?.isBubbleVisible = false
+                }
             }
         }
     }
 
     func startLoop() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] _ in
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.025, repeats: true) { [weak self] _ in
             self?.step()
         }
     }
 
     private func step() {
         if isPaused {
-            pauseTimer -= 0.02
+            pauseTimer -= 0.025
             if pauseTimer <= 0 {
                 isPaused = false
                 travelRemaining = CGFloat.random(in: 120...320)
@@ -71,20 +82,23 @@ class WalkerModel: ObservableObject, Identifiable {
         }
 
         let delta = (isFacingLeft ? -speed : speed)
-        xPosition += delta
+        let newX = xPosition + delta
         travelRemaining -= abs(delta)
 
-        // Screen bounds check (standard iPad width ~1024 or 1194)
-        if xPosition > 900 {
+        // Screen bounds check
+        if newX > 900 {
             xPosition = 900
             isFacingLeft = true
             pause()
-        } else if xPosition < 40 {
+        } else if newX < 40 {
             xPosition = 40
             isFacingLeft = false
             pause()
-        } else if travelRemaining <= 0 {
-            pause()
+        } else {
+            xPosition = newX
+            if travelRemaining <= 0 {
+                pause()
+            }
         }
     }
 
@@ -97,9 +111,10 @@ class WalkerModel: ObservableObject, Identifiable {
         isBusy = true
         isCompletion = false
         bubbleText = thinkingPhrases.randomElement() ?? "thinking..."
-        isBubbleVisible = true
+        withAnimation {
+            isBubbleVisible = true
+        }
 
-        // Rotate phrase periodically
         Timer.scheduledTimer(withTimeInterval: 2.2, repeats: false) { [weak self] _ in
             if self?.isBusy == true {
                 self?.bubbleText = self?.thinkingPhrases.randomElement() ?? "cooking..."
@@ -111,12 +126,16 @@ class WalkerModel: ObservableObject, Identifiable {
         isBusy = false
         isCompletion = true
         bubbleText = completionPhrases.randomElement() ?? "done!"
-        isBubbleVisible = true
+        withAnimation {
+            isBubbleVisible = true
+        }
         SoundManager.shared.playRandomPing()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) { [weak self] in
             if !(self?.isBusy ?? false) {
-                self?.isBubbleVisible = false
+                withAnimation {
+                    self?.isBubbleVisible = false
+                }
             }
         }
     }
